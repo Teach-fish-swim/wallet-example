@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.websocket.valid.mapper.StudentMapper">
+    <insert id="addSpendRecord" parameterType="java.util.Map">
+        INSERT INTO tb_spend_record(id, `desc`, create_date)
+        VALUES (#{id}, #{msg}, #{create_date})
+    </insert>
+
+    <select id="getSpendDetail" parameterType="java.util.Map">
+        select tsr.id,tsr.create_date,tsr.`desc`,tsr.remaining_sum
+        from tb_spend_record tsr
+        <where>
+            tsr.id =#{id}
+            <if test="startDate ! null">
+                and tsr.create_date &gt;= #{startDate}
+            </if>
+            <if test="startDate ! null">
+                and tsr.create_date&lt;= #{endDate}
+            </if>
+            order by tsr.create_date desc
+        </where>
+    </select>
+</mapper>
